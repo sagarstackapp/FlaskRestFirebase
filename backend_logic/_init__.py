@@ -6,12 +6,14 @@ default_app = initialize_app(
     cred, {'databaseURL': 'https://console.firebase.google.com/project/userintegration-f8858/database/userintegration-f8858-default-rtdb/data/~2F'})
 
 
+def createApp():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = '12345rtfescdvf'
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '12345rtfescdvf'
+    from .userApi import userApi
 
-from .userApi import userApi
+    app.register_blueprint(userApi, url_prefix="/users")
 
-app.register_blueprint(userApi, url_prefix="/users")
+    return app
 
 

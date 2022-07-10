@@ -1,7 +1,7 @@
-from backend_logic import createApp
+from backend_logic import _init__
 
-app = createApp()
+app = _init__.createApp()
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = True)
