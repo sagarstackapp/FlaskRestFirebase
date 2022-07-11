@@ -27,13 +27,13 @@ def required_params(required):
                     "param_types": wrong_types
                 }
                 return jsonify(response), 400
-            wrong_syntax = [r + 'Emter valid email address' for r in required.keys()
-                            if 'email' in _json]
-            if wrong_syntax:
-                response = {
-                    "status": False
-                }
-                return jsonify(response), 400
+            # wrong_syntax = [r + 'Emter valid email address' for r in required.keys()
+            #                 if 'email' in _json]
+            # if wrong_syntax:
+            #     response = {
+            #         "status": False
+            #     }
+            #     return jsonify(response), 400
             return fn(*args, **kwargs)
         return wrapper
     return decorator
