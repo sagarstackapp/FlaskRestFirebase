@@ -38,7 +38,7 @@ def read():
         return jsonify({'status': e.message}), 400
 
 
-@userApi.route('/update', methods=['POST'])
+@userApi.route('/update', methods=['POST', 'PUT'])
 def update():
     try:
         id = request.args.get("id")
@@ -49,8 +49,25 @@ def update():
                 userData = user_ref.document(id).get()
                 return jsonify({'status': True, 'data': userData.to_dict(), 'message': 'Record updated successfully'}), 200
             else:
-                return jsonify({'status': False, 'data': [], 'message': 'No record found'}), 200
+                return jsonify({'status': False, 'data': [], 'message': 'No user found'}), 200
         else:
-            return jsonify({'status': False, 'message': 'Please, provide id', 'missing': 'id is required'}), 400
+            return jsonify({'status': False, 'message': 'Please, provide user id', 'missing': 'id is required'}), 400
+    except ValidationError as e:
+        return jsonify({'status': e.message}), 400
+
+
+@userApi.route('/delete', methods=['DELETE'])
+def delete():
+    try:
+        id = request.args.get("id")
+        if id:
+            userData = user_ref.document(id).get()
+            if userData.exists:
+                user_ref.document(id).delete()
+                return jsonify({'status': True, 'data': userData.to_dict(), 'message': f'{id} deleted successfully'}), 200
+            else:
+                return jsonify({'status': False, 'data': [], 'message': 'No user found'}), 200
+        else:
+            return jsonify({'status': False, 'message': 'Please, provide user id', 'missing': 'id is required'}), 400
     except ValidationError as e:
         return jsonify({'status': e.message}), 400
